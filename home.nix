@@ -84,7 +84,6 @@
     auto-cpufreq
     icon-library
     playerctl
-    (callPackage ./adios.nix {})
 
     rustc
     cargo
