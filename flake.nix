@@ -25,6 +25,10 @@
     catppuccin = {
       url = "github:catppuccin/nix";
     };
+
+    ladybird = {
+      url = "github:LadybirdBrowser/ladybird";
+    };
   };
 
   outputs = {
@@ -33,10 +37,10 @@
     nixvim,
     catppuccin,
     spicetify-nix,
+    ladybird,
     ...
   } @ inputs: let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
   in {
     homeConfigurations."tereza" = home-manager.lib.homeManagerConfiguration {
       pkgs = import nixpkgs {inherit system;};
@@ -44,6 +48,8 @@
         inherit inputs;
         inherit nixvim;
         inherit spicetify-nix;
+        inherit catppuccin;
+        inherit ladybird;
       };
 
       modules = [

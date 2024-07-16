@@ -1,0 +1,132 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: bold;
+  min-height: 0;
+  font-size: 100%;
+  font-feature-settings: '"zero", "ss01", "ss02", "ss03", "ss04", "ss05", "cv31"';
+  padding: 0px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+window#waybar {
+  background: rgba(0, 0, 0, 0);
+}
+
+window#waybar.hidden {
+  opacity: 0.5;
+}
+
+tooltip {
+  background: #1e1e2e;
+  border-radius: 8px;
+}
+
+tooltip label {
+  color: #cad3f5;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.modules-right,
+.modules-center,
+.modules-left {
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 0px solid #b4befe;
+  border-radius: 8px;
+}
+
+#workspaces button {
+  padding: 2px;
+  color: #6e6a86;
+  margin-right: 5px;
+}
+
+#workspaces button.active {
+  color: #c2c5d4;
+  border-radius: 3px 3px 3px 3px;
+}
+
+#workspaces button.focused {
+  color: #d8dee9;
+}
+
+#workspaces button.urgent {
+  color: #ed8796;
+  border-radius: 8px;
+}
+
+#workspaces button:hover {
+  color: #b7bdf8;
+  border-radius: 3px;
+}
+
+#backlight,
+#battery,
+#bluetooth,
+#clock,
+#cpu,
+#custom-notification,
+#custom-recorder,
+#disk,
+#language,
+#memory,
+#network,
+#tray,
+#pulseaudio,
+#temperature,
+#workspaces,
+#custom-powermenu,
+#custom-spotify,
+#custom-launcher,
+#custom-weather {
+  color: #c2c5d4;
+  padding: 0px 10px;
+  border-radius: 8px;
+  transition: all ease-in 0.5s;
+}
+
+#custom-powermenu {
+  margin-right: 1rem;
+}
+
+#temperature.critical {
+  background-color: #ff0000;
+}
+
+@keyframes blink {
+  to {
+    color: #000000;
+  }
+}
+
+#taskbar button.active {
+  background-color: #7f849c;
+}
+
+#battery.critical:not(.charging) {
+  color: #f53c3c;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#custom-recorder {
+  color: #ff2800;
+}
+
+#custom-launcher {
+  color: #5693fc;
+}
+
+#custom-powermenu {
+  transition: all ease-in 0.5s;
+  color: #ff366f;
+}
+
+#custom-powermenu:hover {
+  transition: all ease-in 0.5s;
+  color: #941e3f;
+}

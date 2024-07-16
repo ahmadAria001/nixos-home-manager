@@ -3,11 +3,34 @@
   pkgs,
   inputs,
   catppuccin,
+  options,
+  ladybird,
   ...
 }: {
   imports = [
-    inputs.ags.homeManagerModules.default
-    ./system
+    ./modules/alacritty.nix
+    ./modules/bat.nix
+    ./modules/bottom.nix
+    ./modules/cava.nix
+    ./modules/discord.nix
+    ./modules/fastfetch.nix
+    ./modules/fzf.nix
+    ./modules/git.nix
+    ./modules/hyprland.nix
+    ./modules/gpg.nix
+    ./modules/gtk.nix
+    ./modules/kitty.nix
+    ./modules/krew.nix
+    ./modules/lazygit.nix
+    ./modules/rofi.nix
+    ./modules/saml2aws.nix
+    ./modules/scripts.nix
+    ./modules/tmux.nix
+    ./modules/ulauncher.nix
+    ./modules/zoom.nix
+    ./modules/zsh.nix
+    ./modules/wlsunset.nix
+    ./modules/wlogout.nix
   ];
 
   # Home Manager needs a bit of information about you and the paths it should
@@ -15,7 +38,7 @@
   home = {
     username = "tereza";
     homeDirectory = "/home/tereza";
-    stateVersion = "23.11";
+    stateVersion = "24.05";
   };
 
   # This value determines the Home Manager release that your configuration is
@@ -33,7 +56,11 @@
     };
   };
 
-  catppuccin.flavor = "mocha";
+  catppuccin = {
+    enable = true;
+    flavor = "mocha";
+    accent = "lavender";
+  };
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -54,24 +81,58 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    zed-editor
     vscode
     postman
     telegram-desktop
     obsidian
-    rofi
+    rofi-wayland
+    easyeffects
+    gnome.file-roller
+    archiver
+    gnome.gnome-weather
+    gnome.gnome-clocks
+    mpc-cli
+    brave
 
     obs-studio
     davinci-resolve
 
+    xdg-desktop-portal-hyprland
+    dconf
+    xwayland
+    thefuck
+    tmux
+    networkmanagerapplet
+    wlsunset
+    wl-mirror
+    scdoc
+    sassc
+    gtk-layer-shell
+    dbus
+    gobject-introspection
+    libgee
+    json-glib
+    libhandy
+    gvfs
+    pantheon.granite
+    vala
+
     hyprlock
     hypridle
     hyprpicker
+    hyprshade
     swww
     pamixer
     matugen
     dart-sass
     fd
-    fzf
+    # fzf
+    slurp
+    grim
+    swappy
+
+    nix-prefetch-git
 
     pywal
     mako
@@ -85,8 +146,14 @@
     icon-library
     playerctl
 
+    meson
+    stdenvNoCC
     rustc
     cargo
+    nodejs
+    php83
+    php83Packages.composer
+    php83Extensions.xdebug
 
     libreoffice-qt
     hunspell
@@ -94,24 +161,38 @@
     hunspellDicts.th_TH
     texlivePackages.poiretone
 
+    argparse
+
     typescript
     bun
-    python310
 
     libdbusmenu-gtk3
+    gtk3
     brightnessctl
+    pavucontrol
     adwaita-qt6
     adwaita-qt
 
     cascadia-code
+    noto-fonts
+    noto-fonts-emoji
+    noto-fonts-cjk
+    liberation_ttf
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
+    dina-font
 
     #theme
     lxappearance
     lightly-qt
     libsForQt5.qt5ct
-    catppuccin-gtk
     cron
     paper-icon-theme
+    catppuccin-cursors
+
+    chntpw
+    parted
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -146,7 +227,7 @@
   #  /etc/profiles/per-user/tereza/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    # EDITOR = "nvim";
   };
 
   programs = {
@@ -157,152 +238,30 @@
 
     wlogout = {
       enable = true;
-      layout = [
-        {
-          label = "lock";
-          action = "hyprlock";
-          text = "Lock";
-          keybind = "l";
-        }
-        {
-          label = "hibernate";
-          action = "systemctl hibernate";
-          text = "Hibernate";
-          keybind = "h";
-        }
-        {
-          label = "suspend";
-          action = "systemctl suspend";
-          text = "Suspend";
-          keybind = "s";
-        }
-        {
-          label = "logout";
-          action = "hyprctl dispatch exit";
-          text = "Logout";
-          keybind = "e";
-        }
-        {
-          label = "shutdown";
-          action = "systemctl poweroff";
-          text = "Shutdown";
-          keybind = "s";
-        }
-        {
-          label = "reboot";
-          action = "systemctl reboot";
-          text = "Reboot";
-          keybind = "r";
-        }
-      ];
-
-      style = ''
-        /* ----------- 💫 https://github.com/JaKooLit 💫 -------- */
-        /* pywal-wlogout */
-
-        /* Importing pywal colors */
-
-        @import './colors/Catppuccin-Mocha.css';
-
-        window {
-            font-family: Fira Code Medium;
-            font-size: 16pt;
-            color:  @foreground; /* text */
-            background-color: rgba(24, 27, 32, 0.2);
-
-        }
-
-        button {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 20%;
-            background-color: transparent;
-            animation: gradient_f 20s ease-in infinite;
-            transition: all 0.3s ease-in;
-            box-shadow: 0 0 10px 2px transparent;
-            border-radius: 36px;
-            margin: 10px;
-        }
-
-        button:focus {
-            box-shadow: none;
-            background-size : 20%;
-        }
-
-        button:hover {
-            background-size: 50%;
-            box-shadow: 0 0 10px 3px rgba(0,0,0,.4);
-            background-color: @color6;
-            color: transparent;
-            transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.5s ease-in;
-        }
-
-        #shutdown {
-            background-image: image(url("./icons/power.png"));
-        }
-        #shutdown:hover {
-          background-image: image(url("./icons/power-hover.png"));
-        }
-
-        #logout {
-            background-image: image(url("./icons/logout.png"));
-
-        }
-        #logout:hover {
-          background-image: image(url("./icons/logout-hover.png"));
-        }
-
-        #reboot {
-            background-image: image(url("./icons/restart.png"));
-        }
-        #reboot:hover {
-          background-image: image(url("./icons/restart-hover.png"));
-        }
-
-        #lock {
-            background-image: image(url("./icons/lock.png"));
-        }
-        #lock:hover {
-          background-image: image(url("./icons/lock-hover.png"));
-        }
-
-        #hibernate {
-            background-image: image(url("./icons/hibernate.png"));
-        }
-        #hibernate:hover {
-          background-image: image(url("./icons/hibernate-hover.png"));
-        }
-      '';
-    };
-
-    ags = {
-      enable = true;
-
-      # null or path, leave as null if you don't want hm to manage the config
-      # configDir = ../ags;
-
-      # additional packages to add to gjs's runtime
-      extraPackages = with pkgs; [
-        gtksourceview
-        webkitgtk
-        accountsservice
-      ];
     };
   };
 
-  gtk = {
-    enable = true;
-    theme = {
-      name = "Catppuccin-Macchiato-Compact-Pink-Dark";
-      package = pkgs.catppuccin-gtk.override {
-        accents = ["pink"];
-        size = "compact";
-        tweaks = ["rimless" "black"];
-        variant = "macchiato";
-      };
+  home.file = {
+    "desktop-bg" = {
+      source = ./files/wallpapers/desktop-bg;
+    };
+
+    "profile-pict.png" = {
+      source = ./files/wallpapers/desktop-bg;
     };
   };
 
+  # home.pointerCursor = {
+  #   gtk.enable = true;
+  #   package = pkgs.catppuccin-gtk.override {
+  #     accents = ["pink"];
+  #     size = "compact";
+  #     tweaks = ["rimless" "black"];
+  #     variant = "macchiato";
+  #   };
+  #   name = "catppuccin-gtk";
+  #   size = 16;
+  # };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

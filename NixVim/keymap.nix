@@ -162,6 +162,19 @@
     }
 
     {
+      mode = ["n" "v"];
+      key = "<leader>cm";
+      action = ''
+        function()
+          require("conform").format { async = true, lsp_fallback = true }
+        end
+      '';
+      options = {
+        desc = "Format with Conform";
+      };
+    }
+
+    {
       mode = "t";
       key = "<ESC>";
       action = "<C-\\><C-N>";

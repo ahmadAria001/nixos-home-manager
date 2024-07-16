@@ -1,5 +1,13 @@
-{pkgs, ...}: {
-  programs.nixvim.extraPlugins = with pkgs.vimPlugins; [
+{pkgs, ...}:{
+  programs.nixvim.extraPlugins = with pkgs; [
+    stylua
+    prettierd
+    vimPlugins.vim-prettier
+    nodePackages_latest.prettier
+    isort
+    black
+    php83Packages.php-cs-fixer
+    alejandra
   ];
 
   programs.nixvim.plugins = {
@@ -23,6 +31,33 @@
 
     nvim-tree = {
       enable = true;
+
+      diagnostics = {
+        enable = true;
+        showOnDirs = true;
+      };
+
+      actions = {
+        windowPicker = {
+          enable = true;
+        };
+      };
+
+      git = {
+        enable = true;
+        ignore = false;
+        showOnDirs = true;
+      };
+
+      renderer = {
+        addTrailing = true;
+        highlightModified = "all";
+        specialFiles = [".env" ".env.production" "docker-compose.yml" "docker.yml"];
+      };
+
+      updateFocusedFile = {
+        enable = true;
+      };
 
       view = {
         width = "25%";
@@ -93,6 +128,9 @@
         gopls = {
           enable = true;
         };
+        nixd = {
+          enable = true;
+        };
       };
     };
 
@@ -111,54 +149,58 @@
         jsx = [["prettierd" "prettier"]];
         svelte = [["prettierd" "prettier"]];
         php = ["php-cs-fixer" "blade-formatter"];
-        ts = ["prettier"];
-        tsx = ["prettier"];
+        ts = [["prettierd" "prettier"]];
+        tsx = [["prettierd" "prettier"]];
         nix = ["alejandra"];
         go = ["gofmt"];
       };
     };
 
-    none-ls = {
+    indent-blankline = {
       enable = true;
-      enableLspFormat = true;
-      updateInInsert = false;
-      sources = {
-        code_actions = {
-          gitsigns.enable = true;
-          statix.enable = true;
-        };
-        diagnostics = {
-          statix.enable = true;
-          yamllint.enable = true;
-        };
-        formatting = {
-          alejandra.enable = true;
-          black = {
-            enable = true;
-            withArgs = ''
-              {
-                extra_args = { "--fast" },
-              }
-            '';
-          };
-          prettier = {
-            enable = true;
-            disableTsServerFormatter = true;
-            withArgs = ''
-              {
-                extra_args = { "--no-semi", "--single-quote" },
-              }
-            '';
-          };
-          stylua.enable = true;
-          yamlfmt.enable = true;
-          prettierd.enable = true;
-          phpcsfixer.enable = true;
-          isort.enable = true;
-          gofmt.enable = true;
-        };
-      };
     };
+
+    # none-ls = {
+    #   enable = true;
+    #   enableLspFormat = true;
+    #   updateInInsert = false;
+    #   sources = {
+    #     code_actions = {
+    #       gitsigns.enable = true;
+    #       statix.enable = true;
+    #     };
+    #     diagnostics = {
+    #       statix.enable = true;
+    #       yamllint.enable = true;
+    #     };
+    #     formatting = {
+    #       alejandra.enable = true;
+    #       black = {
+    #         enable = true;
+    #         withArgs = ''
+    #           {
+    #             extra_args = { "--fast" },
+    #           }
+    #         '';
+    #       };
+    #       prettier = {
+    #         enable = true;
+    #         disableTsServerFormatter = true;
+    #         withArgs = ''
+    #           {
+    #             extra_args = { "--no-semi", "--single-quote" },
+    #           }
+    #         '';
+    #       };
+    #       stylua.enable = true;
+    #       yamlfmt.enable = true;
+    #       prettierd.enable = true;
+    #       phpcsfixer.enable = true;
+    #       isort.enable = true;
+    #       gofmt.enable = true;
+    #     };
+    #   };
+    # };
 
     cmp = {
       enable = true;
@@ -308,6 +350,7 @@
 
     startup = {
       enable = true;
+      theme = "evil";
     };
 
     surround = {
@@ -347,6 +390,67 @@
     };
 
     lastplace = {
+      enable = true;
+      openFolds = true;
+    };
+
+    dap = {
+      enable = true;
+      signs = {
+        dapBreakpoint = {
+          text = "●";
+          texthl = "DapBreakpoint";
+        };
+        dapBreakpointCondition = {
+          text = "●";
+          texthl = "DapBreakpointCondition";
+        };
+        dapLogPoint = {
+          text = "◆";
+          texthl = "DapLogPoint";
+        };
+      };
+
+      extensions = {
+        dap-python = {
+          enable = true;
+        };
+        dap-ui = {
+          enable = true;
+          floating.mappings = {
+            close = ["<ESC>" "q"];
+          };
+        };
+        dap-virtual-text = {
+          enable = true;
+        };
+        dap-go = {
+          enable = true;
+        };
+      };
+
+      configurations = {
+        java = [
+          {
+            type = "java";
+            request = "launch";
+            name = "Debug (Attach) - Remote";
+            hostName = "127.0.0.1";
+            port = 5005;
+          }
+        ];
+
+        laravel = [
+          {
+            type = "php";
+            request = "launch";
+            name = "Debug (Attach) - Remote";
+          }
+        ];
+      };
+    };
+
+    lazy = {
       enable = true;
     };
 

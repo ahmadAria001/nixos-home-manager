@@ -1,9 +1,10 @@
 {self, ...}: {
-  programs.nixvim.opts = {
-    number = true;
-    relativenumber = false;
+  programs.nixvim = {
+    opts = {
+      number = true;
+      relativenumber = false;
 
-    shiftwidth = 2;
+      shiftwidth = 2;
+    };
   };
 }
-
