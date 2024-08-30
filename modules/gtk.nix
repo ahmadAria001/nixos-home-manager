@@ -6,6 +6,7 @@
       enable = true;
       gnomeShellTheme = true;
     };
+
     font = {
       name = "Roboto";
       size = 11;

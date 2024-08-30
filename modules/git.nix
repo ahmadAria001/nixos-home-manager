@@ -3,11 +3,12 @@
   programs.git = {
     enable = true;
     userName = "ahmadAria001";
-    userEmail = "razscer0@gmail.com";
+    userEmail = "73412887+ahmadAria001@users.noreply.github.com";
     signing = {
       key = "F59D9F8623103C48";
       signByDefault = true;
     };
+    lfs.enable = true;
     delta = {
       enable = true;
       catppuccin.enable = true;

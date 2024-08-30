@@ -5,14 +5,17 @@
   catppuccin,
   options,
   ladybird,
+  lib,
   ...
-}: {
+}: let 
+in {
   imports = [
     ./modules/alacritty.nix
     ./modules/bat.nix
     ./modules/bottom.nix
     ./modules/cava.nix
     ./modules/discord.nix
+    ./modules/eww.nix
     ./modules/fastfetch.nix
     ./modules/fzf.nix
     ./modules/git.nix
@@ -23,6 +26,7 @@
     ./modules/krew.nix
     ./modules/lazygit.nix
     ./modules/rofi.nix
+    ./modules/pyprland.nix
     ./modules/saml2aws.nix
     ./modules/scripts.nix
     ./modules/tmux.nix
@@ -52,7 +56,9 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = _: true;
+      allowUnfreePredicate = pkg:
+	builtins.elem (lib.getName pkg) [
+	];
     };
   };
 
@@ -83,6 +89,8 @@
     # '')
     zed-editor
     vscode
+    dbeaver-bin
+    beekeeper-studio
     postman
     telegram-desktop
     obsidian
@@ -92,13 +100,24 @@
     archiver
     gnome.gnome-weather
     gnome.gnome-clocks
+    gnome.gnome-keyring
     mpc-cli
     brave
+    kate
+    lssecret
+    libsecret
+    ranger
+
+    google-chrome
 
     obs-studio
+    vlc
     davinci-resolve
+    prismlauncher
+    protonvpn-gui
 
     xdg-desktop-portal-hyprland
+    xorg.xev
     dconf
     xwayland
     thefuck
@@ -121,17 +140,20 @@
     hyprlock
     hypridle
     hyprpicker
+    hyprcursor
     hyprshade
+    hyprpicker
     swww
     pamixer
     matugen
     dart-sass
     fd
-    # fzf
     slurp
     grim
     swappy
+    lxqt.lxqt-policykit
 
+    nix-prefetch
     nix-prefetch-git
 
     pywal
@@ -139,7 +161,6 @@
     libnotify
     dart-sass
     webkitgtk
-    sptlrx
     starship
     gtop
     auto-cpufreq
@@ -150,10 +171,15 @@
     stdenvNoCC
     rustc
     cargo
+    clang
     nodejs
+    nodePackages.pnpm
     php83
     php83Packages.composer
     php83Extensions.xdebug
+    openjdk17-bootstrap
+    nmap
+    wireshark
 
     libreoffice-qt
     hunspell
@@ -185,6 +211,7 @@
 
     #theme
     lxappearance
+    nwg-look
     lightly-qt
     libsForQt5.qt5ct
     cron
@@ -251,17 +278,14 @@
     };
   };
 
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   package = pkgs.catppuccin-gtk.override {
-  #     accents = ["pink"];
-  #     size = "compact";
-  #     tweaks = ["rimless" "black"];
-  #     variant = "macchiato";
-  #   };
-  #   name = "catppuccin-gtk";
-  #   size = 16;
-  # };
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.catppuccin-cursors;
+    name = "Catppuccin-MochaMauve";
+    size = 16;
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

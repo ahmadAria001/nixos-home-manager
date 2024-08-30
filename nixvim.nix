@@ -11,9 +11,9 @@
     nixvim.homeManagerModules.nixvim
     ./NixVim/autoCmd.nix
     ./NixVim/keymap.nix
-    ./NixVim/options.nix
     ./NixVim/plugins.nix
     ./NixVim/colorschemes.nix
+    ./NixVim/options.nix
   ];
 
   programs.nixvim = {
